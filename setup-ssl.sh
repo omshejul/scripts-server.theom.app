@@ -14,7 +14,24 @@ while [[ "$#" -gt 0 ]]; do
   shift
 done
 
-EMAIL="contact@omshejul.com"
+
+# Load .env if it exists
+ENV_PATH="$(dirname "$0")/.env"
+if [ -f "$ENV_PATH" ]; then
+  set -a
+  source "$ENV_PATH"
+  set +a
+fi
+
+# Abort if LE_EMAIL is not set
+if [ -z "$LE_EMAIL" ]; then
+  echo "❌ ERROR: LE_EMAIL is not set. Please create a .env file with:"
+  echo "LE_EMAIL=your@email.com"
+  exit 1
+fi
+
+EMAIL="$LE_EMAIL"
+
 SSL_PATH="$DOCROOT/ssl"
 LE_PATH="/etc/letsencrypt/live/$DOMAIN"
 SYNC_SCRIPT="/root/server/scripts/sync-ssl-${DOMAIN}.sh"

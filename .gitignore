@@ -1,0 +1,7 @@
+# .gitignore
+.env
+*.sh
+*.log
+*.crt
+*.key
+*.bak
